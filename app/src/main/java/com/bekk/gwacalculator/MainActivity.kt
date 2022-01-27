@@ -1,13 +1,11 @@
 package com.bekk.gwacalculator
 
-import android.annotation.SuppressLint
-import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,11 +34,8 @@ class MainActivity : AppCompatActivity() {
         etUnit = findViewById(R.id.etUnit)
         btnAdd = findViewById(R.id.btnAdd)
 
-        val newList: MutableList<Info> = mutableListOf()
-        val myAdapter = InfoAdapter(this, newList)
-        rvSubj.adapter = myAdapter
-        rvSubj.layoutManager = LinearLayoutManager(this)
-
+        updateGwa(getIemList())
+        setUpRecyclerView()
 
         btnAdd.setOnClickListener {
 
@@ -54,9 +49,16 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val subj = etSubj.text.toString().trim()
             val grade = "%.2f".format(etGrade.text.toString().toFloat())
             val unit = "%.1f".format(etUnit.text.toString().toFloat())
-            val newInfo = Info(etSubj.text.toString(), grade, unit)
+
+            addRecord(etSubj, etGrade, etUnit, subj, grade, unit)
+
+            /*
+            val grade = "%.2f".format(etGrade.text.toString().toFloat())
+            val unit = "%.1f".format(etUnit.text.toString().toFloat())
+            val newInfo = Info(0, etSubj.text.toString(), grade, unit)
             newList.add(newInfo)
             myAdapter.notifyItemInserted(newList.size)
             etSubj.text = null
@@ -66,11 +68,11 @@ class MainActivity : AppCompatActivity() {
             updateGwa(myAdapter.infoList)
 
             rvSubj.smoothScrollToPosition(newList.size)
+             */
 
         }
 
     }
-
 
     fun updateGwa(infoList: MutableList<Info>) {
 
@@ -97,6 +99,67 @@ class MainActivity : AppCompatActivity() {
             tvGWA.text = "0.00"
         }
 
+    }
+
+    private fun addRecord(
+        etSubj: EditText,
+        etGrade: EditText,
+        etUnit: EditText,
+        subj: String,
+        grade: String,
+        unit: String
+    ) {
+        val dbHandler = DataBaseHandler(this)
+        val status = dbHandler.addData(Info(0, subj, grade, unit))
+
+        if (status > -1) {
+            etSubj.text = null
+            etGrade.text = null
+            etUnit.text = null
+
+            updateGwa(getIemList())
+            setUpRecyclerView()
+        }
+    }
+
+    fun updateRecord(info: Info){
+        val dbHandler = DataBaseHandler(this)
+        val status = dbHandler.updateData(info)
+        if (status > -1){
+            setUpRecyclerView()
+        } else {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT)
+        }
+    }
+
+    fun deleteRecord(info: Info) {
+        val dbHandler = DataBaseHandler(this)
+        val status = dbHandler.deleteData(info)
+        if (status > -1){
+            setUpRecyclerView()
+        } else {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT)
+        }
+    }
+
+    fun setUpRecyclerView() {
+
+        val dbHandler = DataBaseHandler(this)
+        rvSubj = findViewById(R.id.rvSubj)
+
+        if (getIemList().size > 0) { // kung may laman yung database
+
+            val myAdapter = InfoAdapter(this, getIemList())
+            rvSubj.adapter = myAdapter
+            rvSubj.layoutManager = LinearLayoutManager(this)
+
+            rvSubj.smoothScrollToPosition(getIemList().size - 1)
+        }
+    }
+
+    private fun getIemList(): MutableList<Info> {
+        val dbHandler = DataBaseHandler(this)
+        return dbHandler.viewData()
     }
 
 }

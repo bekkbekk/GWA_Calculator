@@ -37,6 +37,10 @@ class InfoAdapter (
         }
 
         holder.delete.setOnClickListener {
+            if (context is MainActivity){
+                context.deleteRecord(infoList[position])
+            }
+
             infoList.removeAt(position)
             if (context is MainActivity){
                 context.updateGwa(infoList)
