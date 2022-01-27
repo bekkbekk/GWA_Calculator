@@ -1,12 +1,15 @@
 package com.bekk.gwacalculator
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class InfoAdapter (
+    private val context: Context,
     val infoList: MutableList<Info>
         ) : RecyclerView.Adapter<InfoAdapter.MyViewHolder>() {
 
@@ -14,7 +17,7 @@ class InfoAdapter (
         val subject: TextView = itemView.findViewById(R.id.etSubj)
         val grade: TextView = itemView.findViewById(R.id.etGrade)
         val unit: TextView = itemView.findViewById(R.id.etUnit)
-        val delete: TextView = itemView.findViewById(R.id.tvDelete)
+        val delete: ImageButton = itemView.findViewById(R.id.ibDelete)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -35,6 +38,9 @@ class InfoAdapter (
 
         holder.delete.setOnClickListener {
             infoList.removeAt(position)
+            if (context is MainActivity){
+                context.updateGwa(infoList)
+            }
             notifyDataSetChanged()
         }
 

@@ -1,5 +1,7 @@
 package com.bekk.gwacalculator
 
+import android.annotation.SuppressLint
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var body: ConstraintLayout
     private lateinit var tvGWA: TextView
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnAdd = findViewById(R.id.btnAdd)
 
         val newList: MutableList<Info> = mutableListOf()
-        val myAdapter = InfoAdapter(newList)
+        val myAdapter = InfoAdapter(this, newList)
         rvSubj.adapter = myAdapter
         rvSubj.layoutManager = LinearLayoutManager(this)
 
@@ -43,11 +45,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnAdd.setOnClickListener {
 
             //if grades and units are empty
-            if(etGrade.text.isEmpty()){
+            if (etGrade.text.isEmpty()) {
                 etGrade.error = "Required"
                 return@setOnClickListener
             }
-            if(etUnit.text.isEmpty()){
+            if (etUnit.text.isEmpty()) {
                 etUnit.error = "Required"
                 return@setOnClickListener
             }
@@ -60,22 +62,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             etSubj.text = null
             etGrade.text = null
             etUnit.text = null
-            tvGWA.text = updateGwa(myAdapter.infoList)
+
+            updateGwa(myAdapter.infoList)
+
             rvSubj.smoothScrollToPosition(newList.size)
+
         }
 
-
-        //updates GWA when recycler view is modified (removed a view)
     }
 
 
-    private fun updateGwa(infoList: MutableList<Info>): String {
+    fun updateGwa(infoList: MutableList<Info>) {
 
+        tvGWA = findViewById(R.id.tvGWA)
         var totalUnits = 0.0
         var totalGrade = 0.0
         var gradeUnit: Double
 
-        for(i in infoList){
+        for (i in infoList) {
             totalUnits += i.unit.toDouble()
             gradeUnit = i.grade.toDouble() * i.unit.toDouble()
             totalGrade += gradeUnit
@@ -87,17 +91,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.HALF_UP
 
-        return df.format(gwa)
-
-    }
-
-    override fun onClick(view: View?) {
-        when (view?.id) {
-            R.id.tvDelete-> {
-                tvGWA = findViewById(R.id.tvGWA)
-                tvGWA.text = "0.00"
-            }
+        if (df.format(gwa).toFloat() > 0) {
+            tvGWA.text = "%.2f".format(df.format(gwa).toFloat())
+        } else {
+            tvGWA.text = "0.00"
         }
+
     }
 
 }
