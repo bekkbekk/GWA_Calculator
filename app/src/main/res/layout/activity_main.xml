@@ -52,7 +52,7 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -76,6 +76,7 @@
             android:layout_weight="40"
             android:background="@drawable/edit_text_background"
             android:hint="Subject name"
+            android:nextFocusDown="@id/etGrade"
             android:textColor="@color/black"
             android:inputType="text"
             android:padding="6dp"
@@ -90,6 +91,7 @@
             android:layout_weight="20"
             android:background="@drawable/edit_text_background"
             android:hint="Grade"
+            android:nextFocusDown="@id/etUnit"
             android:textColor="@color/black"
             android:maxLength="4"
             android:inputType="numberDecimal"
@@ -125,5 +127,19 @@
 
     </LinearLayout>
 
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <!--        3218825607186618/552056721-->
+    </com.google.android.gms.ads.AdView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

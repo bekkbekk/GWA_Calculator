@@ -64,7 +64,7 @@
         android:id="@+id/ibDelete"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:src="@drawable/delete_image"
+        android:src="@drawable/delete_button_indiv"
         android:background="@color/transparent"
         android:gravity="center"
         android:paddingEnd="6dp"

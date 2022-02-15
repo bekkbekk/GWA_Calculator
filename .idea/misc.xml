@@ -4,12 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/drawable/add_button_bg.xml" value="0.1" />
+        <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/drawable/delete_icon_dialog.xml" value="0.1585" />
         <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/drawable/delete_image.xml" value="0.199" />
         <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/drawable/edit_text_background.xml" value="0.2755208333333333" />
         <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/drawable/refresh_button.xml" value="0.2755208333333333" />
         <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/drawable/view_background.xml" value="0.2755208333333333" />
-        <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/layout/item_layout.xml" value="0.536" />
+        <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/layout/item_layout.xml" value="0.264" />
+        <entry key="..\:/Jerwin/Documents/Android Studio/GWACalculator/app/src/main/res/menu/menu.xml" value="0.259375" />
       </map>
     </option>
   </component>

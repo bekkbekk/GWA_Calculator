@@ -2,6 +2,8 @@ package com.bekk.gwacalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -9,6 +11,10 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -21,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etGrade: EditText
     private lateinit var etUnit: EditText
     private lateinit var btnAdd: Button
+
+    //ads
+    private lateinit var mAdView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,15 +46,23 @@ class MainActivity : AppCompatActivity() {
         updateGwa(getIemList())
         setUpRecyclerView()
 
+        //Mobile Ads //dependencies
+        MobileAds.initialize(this@MainActivity)
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
         btnAdd.setOnClickListener {
 
             //if grades and units are empty
             if (etGrade.text.isEmpty()) {
                 etGrade.error = "Required"
+                etGrade.requestFocus()
                 return@setOnClickListener
             }
             if (etUnit.text.isEmpty()) {
                 etUnit.error = "Required"
+                etUnit.requestFocus()
                 return@setOnClickListener
             }
 
@@ -55,23 +72,29 @@ class MainActivity : AppCompatActivity() {
 
             addRecord(etSubj, etGrade, etUnit, subj, grade, unit)
 
-            /*
-            val grade = "%.2f".format(etGrade.text.toString().toFloat())
-            val unit = "%.1f".format(etUnit.text.toString().toFloat())
-            val newInfo = Info(0, etSubj.text.toString(), grade, unit)
-            newList.add(newInfo)
-            myAdapter.notifyItemInserted(newList.size)
-            etSubj.text = null
-            etGrade.text = null
-            etUnit.text = null
-
-            updateGwa(myAdapter.infoList)
-
-            rvSubj.smoothScrollToPosition(newList.size)
-             */
+            etSubj.requestFocus()
 
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.deleteAll -> {
+                if (getIemList().size > 0) {
+                    showAlertDialogBox()
+                } else {
+                    Toast.makeText(this, "No items to delete", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     fun updateGwa(infoList: MutableList<Info>) {
@@ -122,10 +145,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateRecord(info: Info){
+    fun updateRecord(info: Info) {
         val dbHandler = DataBaseHandler(this)
         val status = dbHandler.updateData(info)
-        if (status > -1){
+        if (status > -1) {
             setUpRecyclerView()
         } else {
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT)
@@ -135,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     fun deleteRecord(info: Info) {
         val dbHandler = DataBaseHandler(this)
         val status = dbHandler.deleteData(info)
-        if (status > -1){
+        if (status > -1) {
             setUpRecyclerView()
         } else {
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT)
@@ -144,22 +167,49 @@ class MainActivity : AppCompatActivity() {
 
     fun setUpRecyclerView() {
 
-        val dbHandler = DataBaseHandler(this)
         rvSubj = findViewById(R.id.rvSubj)
 
-        if (getIemList().size > 0) { // kung may laman yung database
+        //if (getIemList().size > 0) { // kung may laman yung database
 
-            val myAdapter = InfoAdapter(this, getIemList())
-            rvSubj.adapter = myAdapter
-            rvSubj.layoutManager = LinearLayoutManager(this)
+        val myAdapter = InfoAdapter(this, getIemList())
+        rvSubj.adapter = myAdapter
+        rvSubj.layoutManager = LinearLayoutManager(this)
 
-            rvSubj.smoothScrollToPosition(getIemList().size - 1)
-        }
+        rvSubj.smoothScrollToPosition(getIemList().size)
+        //}
     }
 
     private fun getIemList(): MutableList<Info> {
         val dbHandler = DataBaseHandler(this)
         return dbHandler.viewData()
+    }
+
+    private fun showAlertDialogBox() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Are you sure?")
+            .setCancelable(false)
+            .setMessage("Are you sure you want to delete all items?")
+            .setPositiveButton("Yes") { dialog, which ->
+
+                clearData()
+                updateGwa(getIemList())
+                val myAdapter = InfoAdapter(this, getIemList())
+                rvSubj.adapter = myAdapter
+                rvSubj.layoutManager = LinearLayoutManager(this)
+
+            }
+            .setNegativeButton("No") { dialog, which ->
+
+            }
+            .show()
+
+
+    }
+
+    private fun clearData() {
+        for (info in getIemList()) {
+            deleteRecord(info)
+        }
     }
 
 }
