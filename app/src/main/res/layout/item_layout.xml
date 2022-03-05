@@ -31,13 +31,13 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="24dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/etUnit"
+        app:layout_constraintBottom_toTopOf="@id/etUnit2"
         app:layout_constraintEnd_toStartOf="@id/ibDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etSubj" />
 
     <TextView
-        android:id="@+id/etGrade"
+        android:id="@+id/etGrade2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@id/view" />
 
     <TextView
-        android:id="@+id/etUnit"
+        android:id="@+id/etUnit2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -57,7 +57,7 @@
         android:text="Unit: 1.0"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@id/etGrade"
+        app:layout_constraintStart_toEndOf="@id/etGrade2"
         app:layout_constraintTop_toBottomOf="@id/view" />
 
     <ImageButton

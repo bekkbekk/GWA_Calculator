@@ -76,30 +76,30 @@
             android:layout_weight="40"
             android:background="@drawable/edit_text_background"
             android:hint="Subject name"
-            android:nextFocusDown="@id/etGrade"
+            android:nextFocusDown="@id/etGrade2"
             android:textColor="@color/black"
             android:inputType="text"
             android:padding="6dp"
             android:singleLine="true"
-            android:nextFocusRight="@id/etGrade"/>
+            android:nextFocusRight="@id/etGrade2"/>
 
         <EditText
-            android:id="@+id/etGrade"
+            android:id="@+id/etGrade2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_weight="20"
             android:background="@drawable/edit_text_background"
             android:hint="Grade"
-            android:nextFocusDown="@id/etUnit"
+            android:nextFocusDown="@id/etUnit2"
             android:textColor="@color/black"
-            android:maxLength="4"
+            android:maxLength="3"
             android:inputType="numberDecimal"
             android:padding="6dp"
             android:singleLine="true" />
 
         <EditText
-            android:id="@+id/etUnit"
+            android:id="@+id/etUnit2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

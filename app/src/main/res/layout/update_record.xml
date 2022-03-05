@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UPDATE GRADE"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/maroon"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etSubj2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Subject"
+        android:paddingStart="10dp"
+        android:textColor="@color/black"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/tvUpdate" />
+
+    <EditText
+        android:id="@+id/etGrade2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Grade"
+        android:paddingStart="10dp"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/etSubj2" />
+
+    <EditText
+        android:id="@+id/etUnit2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Unit"
+        android:paddingStart="10dp"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/etGrade2" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:textStyle="bold"
+        android:background="@color/white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etUnit2"/>
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:layout_marginEnd="6dp"
+        android:textStyle="bold"
+        android:background="@color/white"
+        android:textColor="@color/maroon"
+        app:layout_constraintRight_toLeftOf="@id/btnCancel"
+        app:layout_constraintTop_toBottomOf="@id/etUnit2" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

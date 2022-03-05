@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class InfoAdapter (
@@ -15,8 +16,8 @@ class InfoAdapter (
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val subject: TextView = itemView.findViewById(R.id.etSubj)
-        val grade: TextView = itemView.findViewById(R.id.etGrade)
-        val unit: TextView = itemView.findViewById(R.id.etUnit)
+        val grade: TextView = itemView.findViewById(R.id.etGrade2)
+        val unit: TextView = itemView.findViewById(R.id.etUnit2)
         val delete: ImageButton = itemView.findViewById(R.id.ibDelete)
     }
 
@@ -39,6 +40,7 @@ class InfoAdapter (
         holder.delete.setOnClickListener {
             if (context is MainActivity){
                 context.deleteRecord(infoList[position])
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
             }
 
             infoList.removeAt(position)
@@ -46,6 +48,12 @@ class InfoAdapter (
                 context.updateGwa(infoList)
             }
             notifyDataSetChanged()
+        }
+
+        holder.itemView.setOnClickListener{
+            if (context is MainActivity){
+                context.updateRecordDialog(infoList[position])
+            }
         }
 
     }

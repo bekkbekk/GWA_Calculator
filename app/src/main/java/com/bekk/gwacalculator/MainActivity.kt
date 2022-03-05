@@ -1,5 +1,6 @@
 package com.bekk.gwacalculator
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -39,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         tvGWA = findViewById(R.id.tvGWA)
         rvSubj = findViewById(R.id.rvSubj)
         etSubj = findViewById(R.id.etSubj)
-        etGrade = findViewById(R.id.etGrade)
-        etUnit = findViewById(R.id.etUnit)
+        etGrade = findViewById(R.id.etGrade2)
+        etUnit = findViewById(R.id.etUnit2)
         btnAdd = findViewById(R.id.btnAdd)
 
         updateGwa(getIemList())
@@ -75,6 +76,9 @@ class MainActivity : AppCompatActivity() {
             etSubj.requestFocus()
 
         }
+
+//        updateRecordDialog("HELLOOO", "1.00", "3.0")
+
 
     }
 
@@ -145,6 +149,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun updateRecordDialog(info: Info){
+        val updateDialog = Dialog(this, R.style.Theme_Dialog)
+        updateDialog.setCancelable(false)
+        updateDialog.setContentView(R.layout.update_record)
+
+//        val etSubj2: EditText = updateDialog.findViewById(R.id.etSubj2)
+//        val etGrade2: EditText = findViewById(R.id.etGrade2)
+//        val etUnit2: EditText = findViewById(R.id.etUnit2)
+//        val btnUpdate: Button = findViewById(R.id.btnUpdate)
+//        val btnCancel: Button = findViewById(R.id.btnCancel)
+
+        updateDialog.findViewById<EditText>(R.id.etSubj2).setText(info.subj)
+        updateDialog.findViewById<EditText>(R.id.etGrade2).setText(info.grade)
+        updateDialog.findViewById<EditText>(R.id.etUnit2).setText(info.unit)
+
+        updateDialog.findViewById<Button>(R.id.btnUpdate).setOnClickListener{
+            if (updateDialog.findViewById<EditText>(R.id.etGrade2).text.isNullOrEmpty()) {
+                updateDialog.findViewById<EditText>(R.id.etGrade2).error = "Required"
+                updateDialog.findViewById<EditText>(R.id.etGrade2).requestFocus()
+                return@setOnClickListener
+            }
+
+            if (updateDialog.findViewById<EditText>(R.id.etUnit2).text.isNullOrEmpty()) {
+                updateDialog.findViewById<EditText>(R.id.etUnit2).error = "Required"
+                updateDialog.findViewById<EditText>(R.id.etUnit2).requestFocus()
+                return@setOnClickListener
+            }
+
+            val new_subj = updateDialog.findViewById<EditText>(R.id.etSubj2).text.toString()
+            var new_grade = updateDialog.findViewById<EditText>(R.id.etGrade2).text.toString()
+            var new_unit = updateDialog.findViewById<EditText>(R.id.etUnit2).text.toString()
+
+            new_grade = "%.2f".format(new_grade.toFloat())
+            new_unit = "%.1f".format(new_unit.toFloat())
+
+            updateRecord(Info(info.id, new_subj, new_grade, new_unit))
+            setUpRecyclerView()
+            updateGwa(getIemList())
+            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+            updateDialog.dismiss()
+        }
+
+        updateDialog.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+            updateDialog.dismiss()
+        }
+
+        updateDialog.show()
+
+
+
+    }
+
     fun updateRecord(info: Info) {
         val dbHandler = DataBaseHandler(this)
         val status = dbHandler.updateData(info)
@@ -196,6 +252,7 @@ class MainActivity : AppCompatActivity() {
                 val myAdapter = InfoAdapter(this, getIemList())
                 rvSubj.adapter = myAdapter
                 rvSubj.layoutManager = LinearLayoutManager(this)
+                Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
 
             }
             .setNegativeButton("No") { dialog, which ->
