@@ -18,35 +18,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvSubj3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subject: "
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/etSubj2"
+        app:layout_constraintBottom_toBottomOf="@id/etSubj2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvGrade3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grade: "
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/etGrade2"
+        app:layout_constraintBottom_toBottomOf="@id/etGrade2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvUnit3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unit: "
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/etUnit2"
+        app:layout_constraintBottom_toBottomOf="@id/etUnit2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <EditText
         android:id="@+id/etSubj2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Subject"
         android:paddingStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/tvSubj3"
+        app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/black"
         android:singleLine="true"
         app:layout_constraintTop_toBottomOf="@id/tvUpdate" />
 
     <EditText
         android:id="@+id/etGrade2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Grade"
         android:paddingStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/tvGrade3"
+        app:layout_constraintEnd_toEndOf="parent"
         android:inputType="numberDecimal"
-        android:maxLength="3"
+        android:maxLength="4"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/etSubj2" />
 
     <EditText
         android:id="@+id/etUnit2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Unit"
         android:paddingStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/tvUnit3"
+        app:layout_constraintEnd_toEndOf="parent"
         android:inputType="numberDecimal"
-        android:maxLength="3"
+        android:maxLength="4"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/etGrade2" />
 

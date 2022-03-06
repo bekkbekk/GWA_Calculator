@@ -3,6 +3,8 @@ package com.bekk.gwacalculator
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -24,9 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var body: ConstraintLayout
     private lateinit var tvGWA: TextView
     private lateinit var rvSubj: RecyclerView
-    private lateinit var etSubj: EditText
-    private lateinit var etGrade: EditText
-    private lateinit var etUnit: EditText
+    lateinit var etSubj: EditText
+    lateinit var etGrade: EditText
+    lateinit var etUnit: EditText
     private lateinit var btnAdd: Button
 
     //ads
@@ -63,6 +65,20 @@ class MainActivity : AppCompatActivity() {
             }
             if (etUnit.text.isEmpty()) {
                 etUnit.error = "Required"
+                etUnit.requestFocus()
+                return@setOnClickListener
+            }
+
+            //if grades and units are invalid
+
+            if (etGrade.text.toString().toFloat() > 5.0f || etGrade.text.toString().toFloat() < 1.0f){
+                etGrade.error = "1.00 - 5.00 only"
+                etGrade.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (etUnit.text.toString().toFloat() > 9.0f || etUnit.text.toString().toFloat() < 1.0f){
+                etUnit.error = "1.0 - 9.0 only"
                 etUnit.requestFocus()
                 return@setOnClickListener
             }
@@ -117,11 +133,11 @@ class MainActivity : AppCompatActivity() {
         val gwa = totalGrade / totalUnits
 
         //round-off
-        val df = DecimalFormat("#.##")
+        val df = DecimalFormat("#.###")
         df.roundingMode = RoundingMode.HALF_UP
 
         if (df.format(gwa).toFloat() > 0) {
-            tvGWA.text = "%.2f".format(df.format(gwa).toFloat())
+            tvGWA.text = "%.3f".format(df.format(gwa).toFloat())
         } else {
             tvGWA.text = "0.00"
         }
@@ -149,14 +165,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateRecordDialog(info: Info){
+    fun updateRecordDialog(info: Info) {
         val updateDialog = Dialog(this, R.style.Theme_Dialog)
         updateDialog.setCancelable(false)
         updateDialog.setContentView(R.layout.update_record)
 
 //        val etSubj2: EditText = updateDialog.findViewById(R.id.etSubj2)
-//        val etGrade2: EditText = findViewById(R.id.etGrade2)
-//        val etUnit2: EditText = findViewById(R.id.etUnit2)
+//        val etGrade2: EditText = updateDialog.findViewById(R.id.etGrade2)
+//        val etUnit2: EditText = updateDialog.findViewById(R.id.etUnit2)
 //        val btnUpdate: Button = findViewById(R.id.btnUpdate)
 //        val btnCancel: Button = findViewById(R.id.btnCancel)
 
@@ -164,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         updateDialog.findViewById<EditText>(R.id.etGrade2).setText(info.grade)
         updateDialog.findViewById<EditText>(R.id.etUnit2).setText(info.unit)
 
-        updateDialog.findViewById<Button>(R.id.btnUpdate).setOnClickListener{
+        updateDialog.findViewById<Button>(R.id.btnUpdate).setOnClickListener {
             if (updateDialog.findViewById<EditText>(R.id.etGrade2).text.isNullOrEmpty()) {
                 updateDialog.findViewById<EditText>(R.id.etGrade2).error = "Required"
                 updateDialog.findViewById<EditText>(R.id.etGrade2).requestFocus()
@@ -173,6 +189,21 @@ class MainActivity : AppCompatActivity() {
 
             if (updateDialog.findViewById<EditText>(R.id.etUnit2).text.isNullOrEmpty()) {
                 updateDialog.findViewById<EditText>(R.id.etUnit2).error = "Required"
+                updateDialog.findViewById<EditText>(R.id.etUnit2).requestFocus()
+                return@setOnClickListener
+            }
+
+            //if grades and units are invalid
+            if (updateDialog.findViewById<EditText>(R.id.etGrade2).text.toString().toFloat() > 5.0f
+                || updateDialog.findViewById<EditText>(R.id.etGrade2).text.toString().toFloat() < 1.0f){
+                updateDialog.findViewById<EditText>(R.id.etGrade2).error = "1.00 - 5.00 only"
+                updateDialog.findViewById<EditText>(R.id.etGrade2).requestFocus()
+                return@setOnClickListener
+            }
+
+            if (updateDialog.findViewById<EditText>(R.id.etUnit2).text.toString().toFloat() > 9.0f
+                || updateDialog.findViewById<EditText>(R.id.etUnit2).text.toString().toFloat() < 1.0f){
+                updateDialog.findViewById<EditText>(R.id.etUnit2).error = "1.0 - 9.0 only"
                 updateDialog.findViewById<EditText>(R.id.etUnit2).requestFocus()
                 return@setOnClickListener
             }
@@ -196,7 +227,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateDialog.show()
-
 
 
     }

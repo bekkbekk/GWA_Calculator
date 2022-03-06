@@ -52,6 +52,9 @@ class InfoAdapter (
 
         holder.itemView.setOnClickListener{
             if (context is MainActivity){
+                context.etSubj.clearFocus()
+                context.etGrade.clearFocus()
+                context.etUnit.clearFocus()
                 context.updateRecordDialog(infoList[position])
             }
         }
